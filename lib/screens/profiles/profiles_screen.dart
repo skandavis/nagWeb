@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+
 import '../../data/data.dart';
 import '../../models/models.dart';
 import '../../theme/app_colors.dart';
 import '../../widgets/widgets.dart';
-import 'profiles_filters.dart';
 import 'profile_detail_screen.dart';
+import 'profiles_filters.dart';
 
 class ProfilesScreen extends StatefulWidget {
   const ProfilesScreen({super.key});
@@ -30,53 +31,108 @@ class _ProfilesScreenState extends State<ProfilesScreen> {
     super.dispose();
   }
 
-  List<UserProfile> get _filteredUsers {
-    return _filters.apply(totalUsers);
+  List<UserProfile> get _filteredUsers => _filters.apply(totalUsers);
+
+  void _updateFilters(ProfilesFilterState Function(ProfilesFilterState filters) update) {
+    setState(() {
+      _filters = update(_filters);
+    });
+  }
+
+  void _onSearchChanged(String value) {
+    _updateFilters((filters) => filters.copyWith(searchQuery: value));
+  }
+
+  void _onProfessionToggled(String profession) {
+    _updateFilters((filters) => filters.toggleProfession(profession));
+  }
+
+  void _onLocationToggled(String location) {
+    _updateFilters((filters) => filters.toggleLocation(location));
+  }
+
+  void _onAgeChanged(RangeValues values) {
+    _updateFilters(
+      (filters) => filters.copyWith(
+        selectedMinAge: values.start,
+        selectedMaxAge: values.end,
+      ),
+    );
+  }
+
+  void _onSalaryChanged(RangeValues values) {
+    _updateFilters(
+      (filters) => filters.copyWith(
+        selectedMinSalary: values.start,
+        selectedMaxSalary: values.end,
+      ),
+    );
+  }
+
+  void _clearFilters() {
+    _searchController.clear();
+    _updateFilters((filters) => filters.clear());
   }
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
+    final isWideFooter = MediaQuery.of(context).size.width > 700;
+
+    return Container(
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            Color(0xFFF9F3E8),
+            AppColors.warmWhite,
+            Color(0xFFF3EBDD),
+          ],
+        ),
+      ),
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            const _ProfilesHero(),
+            _ProfilesContent(
+              users: _filteredUsers,
+              filters: _filters,
+              searchController: _searchController,
+              onSearchChanged: _onSearchChanged,
+              onProfessionToggled: _onProfessionToggled,
+              onLocationToggled: _onLocationToggled,
+              onAgeChanged: _onAgeChanged,
+              onSalaryChanged: _onSalaryChanged,
+              onClearFilters: _clearFilters,
+            ),
+            AppFooter(isWide: isWideFooter),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _ProfilesHero extends StatelessWidget {
+  const _ProfilesHero();
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(24, 36, 24, 40),
       child: Column(
         children: [
-          const _ProfilesHeader(),
-          _ProfilesContent(
-            users: _filteredUsers,
-            filters: _filters,
-            searchController: _searchController,
-            onSearchChanged: (value) {
-              setState(() {
-                _filters = _filters.copyWith(searchQuery: value);
-              });
-            },
-            onProfessionToggled: (profession) {
-              setState(() {
-                _filters = _filters.toggleProfession(profession);
-              });
-            },
-            onLocationToggled: (location) {
-              setState(() {
-                _filters = _filters.toggleLocation(location);
-              });
-            },
-            onAgeChanged: (value) {
-              setState(() {
-                _filters = _filters.copyWith(selectedMaxAge: value);
-              });
-            },
-            onSalaryChanged: (value) {
-              setState(() {
-                _filters = _filters.copyWith(selectedMinSalary: value);
-              });
-            },
-            onClearFilters: () {
-              setState(() {
-                _searchController.clear();
-                _filters = _filters.clear();
-              });
-            },
+          const SizedBox(height: 24),
+          Text(
+            'Distinguished Profiles',
+            textAlign: TextAlign.center,
+            style: GoogleFonts.playfairDisplay(
+              fontSize: 42,
+              color: AppColors.textPrimary,
+              fontWeight: FontWeight.w500,
+              height: 1.05,
+            ),
           ),
-          AppFooter(isWide: MediaQuery.of(context).size.width > 700),
         ],
       ),
     );
@@ -102,45 +158,53 @@ class _ProfilesContent extends StatelessWidget {
   final ValueChanged<String> onSearchChanged;
   final ValueChanged<String> onProfessionToggled;
   final ValueChanged<String> onLocationToggled;
-  final ValueChanged<double> onAgeChanged;
-  final ValueChanged<double> onSalaryChanged;
+  final ValueChanged<RangeValues> onAgeChanged;
+  final ValueChanged<RangeValues> onSalaryChanged;
   final VoidCallback onClearFilters;
 
   @override
   Widget build(BuildContext context) {
+    final filtersBar = ProfilesFilterBar(
+      filters: filters,
+      onProfessionToggled: onProfessionToggled,
+      onLocationToggled: onLocationToggled,
+      onAgeChanged: onAgeChanged,
+      onSalaryChanged: onSalaryChanged,
+      onClearFilters: onClearFilters,
+    );
+
+    final content = Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _ProfilesSearchBar(
+          controller: searchController,
+          onChanged: onSearchChanged,
+        ),
+        const SizedBox(height: 20),
+        Row(
+          children: [
+            const Spacer(),
+            Text(
+              '${users.length} of ${totalUsers.length} profiles',
+              style: GoogleFonts.cinzel(
+                fontSize: 10,
+                letterSpacing: 2.8,
+                color: AppColors.textMuted,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 20),
+        _ProfilesGrid(users: users),
+      ],
+    );
+
     return Padding(
-      padding: const EdgeInsets.fromLTRB(40, 0, 40, 0),
+      padding: const EdgeInsets.fromLTRB(24, 0, 24, 40),
       child: LayoutBuilder(
         builder: (context, constraints) {
           final isWide = constraints.maxWidth >= 980;
-          final filtersBar = ProfilesFilterBar(
-            filters: filters,
-            onProfessionToggled: onProfessionToggled,
-            onLocationToggled: onLocationToggled,
-            onAgeChanged: onAgeChanged,
-            onSalaryChanged: onSalaryChanged,
-            onClearFilters: onClearFilters,
-          );
-
-          final content = Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _ProfilesSearchBar(
-                controller: searchController,
-                onChanged: onSearchChanged,
-              ),
-              const SizedBox(height: 18),
-              Text(
-                '${users.length} of ${totalUsers.length} profiles',
-                style: GoogleFonts.cormorantGaramond(
-                  fontSize: 18,
-                  color: AppColors.textSecondary,
-                ),
-              ),
-              const SizedBox(height: 18),
-              _ProfilesGrid(users: users),
-            ],
-          );
 
           if (!isWide) {
             return Column(
@@ -155,8 +219,11 @@ class _ProfilesContent extends StatelessWidget {
           return Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(width: 300, child: filtersBar),
-              const SizedBox(width: 32),
+              SizedBox(
+                width: 320,
+                child: _ScrollableFiltersPane(child: filtersBar),
+              ),
+              const SizedBox(width: 28),
               Expanded(child: content),
             ],
           );
@@ -166,40 +233,25 @@ class _ProfilesContent extends StatelessWidget {
   }
 }
 
-class _ProfilesHeader extends StatelessWidget {
-  const _ProfilesHeader();
+class _ScrollableFiltersPane extends StatelessWidget {
+  const _ScrollableFiltersPane({required this.child});
+
+  final Widget child;
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(40, 80, 40, 60),
-      child: Column(
-        children: [
-          const SectionEyebrow(text: 'people available'),
-          const SizedBox(height: 20),
-          RichText(
-            textAlign: TextAlign.center,
-            text: TextSpan(children: [
-              TextSpan(
-                text: 'Distinguished ',
-                style: GoogleFonts.playfairDisplay(
-                  fontSize: 36,
-                  fontWeight: FontWeight.w400,
-                  color: AppColors.textPrimary,
-                ),
-              ),
-              TextSpan(
-                text: 'Profiles',
-                style: GoogleFonts.playfairDisplay(
-                  fontSize: 36,
-                  fontWeight: FontWeight.w400,
-                  fontStyle: FontStyle.italic,
-                  color: AppColors.themeColor,
-                ),
-              ),
-            ]),
-          ),
-        ],
+    final mediaQuery = MediaQuery.of(context);
+    final viewportHeight = mediaQuery.size.height;
+    final safeHeight = viewportHeight - mediaQuery.padding.vertical;
+    final paneHeight = (safeHeight - 32).clamp(420.0, 760.0);
+
+    return SizedBox(
+      height: paneHeight,
+      child: Scrollbar(
+        thumbVisibility: true,
+        child: SingleChildScrollView(
+          child: child,
+        ),
       ),
     );
   }
@@ -216,40 +268,40 @@ class _ProfilesSearchBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ConstrainedBox(
-      constraints: const BoxConstraints(maxWidth: 1000),
+    return purplePanel(
+      padding: const EdgeInsets.all(18),
       child: TextField(
         controller: controller,
         onChanged: onChanged,
         style: GoogleFonts.cormorantGaramond(
-          fontSize: 20,
+          fontSize: 22,
           color: AppColors.textPrimary,
+          fontWeight: FontWeight.w600,
         ),
         decoration: InputDecoration(
           hintText: 'Search profiles by name',
           hintStyle: GoogleFonts.cormorantGaramond(
-            fontSize: 20,
+            fontSize: 22,
             color: AppColors.textMuted,
             fontStyle: FontStyle.italic,
           ),
-          prefixIcon: const Icon(
-            Icons.search,
-            color: AppColors.textMuted,
-          ),
+          prefixIcon: const Icon(Icons.search, color: AppColors.goldDeep),
           filled: true,
-          fillColor: AppColors.ivory,
+          fillColor: Colors.white.withValues(alpha: 0.62),
           contentPadding: const EdgeInsets.symmetric(
             horizontal: 20,
             vertical: 18,
           ),
-          enabledBorder: const OutlineInputBorder(
-            borderRadius: BorderRadius.zero,
-            borderSide: BorderSide(color: AppColors.border),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: const BorderRadius.all(Radius.circular(18)),
+            borderSide: BorderSide(
+              color: AppColors.border.withValues(alpha: 0.2),
+            ),
           ),
           focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.zero,
+            borderRadius: const BorderRadius.all(Radius.circular(18)),
             borderSide: BorderSide(
-              color: AppColors.gold.withValues(alpha: 0.6),
+              color: AppColors.gold.withValues(alpha: 0.85),
             ),
           ),
         ),
@@ -266,21 +318,26 @@ class _ProfilesGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (users.isEmpty) {
-      return Text(
-        'No profiles match the selected filters.',
-        style: GoogleFonts.cormorantGaramond(
-          fontSize: 24,
-          color: AppColors.textSecondary,
-          fontStyle: FontStyle.italic,
+      return purplePanel(
+        padding: const EdgeInsets.all(28),
+        child: Center(
+          child: Text(
+            'No profiles match the selected filters.',
+            style: GoogleFonts.cormorantGaramond(
+              fontSize: 22,
+              color: AppColors.textMuted,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
         ),
       );
     }
 
     return Column(
       children: users
-          .map((u) => Padding(
-                padding: const EdgeInsets.only(bottom: 20),
-                child: _buildCard(context, u),
+          .map((user) => Padding(
+                padding: const EdgeInsets.only(bottom: 22),
+                child: _buildCard(context, user),
               ))
           .toList(),
     );

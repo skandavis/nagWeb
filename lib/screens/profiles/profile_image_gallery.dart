@@ -59,33 +59,47 @@ class _GalleryPageView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 420,
-      child: Stack(
-        children: [
-          PageView.builder(
-            controller: pageController,
-            onPageChanged: onPageChanged,
-            itemCount: imageUrls.length,
-            itemBuilder: (context, i) => _GalleryImage(url: imageUrls[i]),
-          ),
-          _NavArrow(
-            alignment: Alignment.centerLeft,
-            icon: Icons.arrow_back_ios_new_rounded,
-            onTap: () => pageController.previousPage(
-              duration: const Duration(milliseconds: 350),
-              curve: Curves.easeInOut,
-            ),
-          ),
-          _NavArrow(
-            alignment: Alignment.centerRight,
-            icon: Icons.arrow_forward_ios_rounded,
-            onTap: () => pageController.nextPage(
-              duration: const Duration(milliseconds: 350),
-              curve: Curves.easeInOut,
-            ),
+    return Container(
+      height: 460,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(30),
+        border: Border.all(color: AppColors.borderStrong, width: 1.4),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.royalPlum.withValues(alpha: 0.12),
+            blurRadius: 32,
+            offset: const Offset(0, 18),
           ),
         ],
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(30),
+        child: Stack(
+          children: [
+            PageView.builder(
+              controller: pageController,
+              onPageChanged: onPageChanged,
+              itemCount: imageUrls.length,
+              itemBuilder: (context, i) => _GalleryImage(url: imageUrls[i]),
+            ),
+            _NavArrow(
+              alignment: Alignment.centerLeft,
+              icon: Icons.arrow_back_ios_new_rounded,
+              onTap: () => pageController.previousPage(
+                duration: const Duration(milliseconds: 350),
+                curve: Curves.easeInOut,
+              ),
+            ),
+            _NavArrow(
+              alignment: Alignment.centerRight,
+              icon: Icons.arrow_forward_ios_rounded,
+              onTap: () => pageController.nextPage(
+                duration: const Duration(milliseconds: 350),
+                curve: Curves.easeInOut,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -101,7 +115,16 @@ class _GalleryImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(border: Border.all(color: AppColors.border)),
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            AppColors.marbleShadow,
+            AppColors.marble,
+          ],
+        ),
+      ),
       child: Image.network(
         url,
         fit: BoxFit.cover,
@@ -110,7 +133,7 @@ class _GalleryImage extends StatelessWidget {
         loadingBuilder: (context, child, loadingProgress) {
           if (loadingProgress == null) return child;
           return Container(
-            color: AppColors.cream,
+            color: AppColors.marble,
             alignment: Alignment.center,
             child: const CircularProgressIndicator(
               valueColor: AlwaysStoppedAnimation(AppColors.gold),
@@ -159,9 +182,13 @@ class _NavArrow extends StatelessWidget {
         onTap: onTap,
         child: Container(
           margin: const EdgeInsets.symmetric(horizontal: 12),
-          width: 40,
-          height: 40,
-          color: AppColors.deepThemeColor.withOpacity(0.65),
+          width: 46,
+          height: 46,
+          decoration: BoxDecoration(
+            color: AppColors.royalPlum.withValues(alpha: 0.72),
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: AppColors.goldLight.withValues(alpha: 0.45)),
+          ),
           alignment: Alignment.center,
           child: Icon(icon, color: AppColors.ivory, size: 16),
         ),
@@ -194,9 +221,12 @@ class _GalleryDots extends StatelessWidget {
           child: AnimatedContainer(
             duration: const Duration(milliseconds: 250),
             margin: const EdgeInsets.symmetric(horizontal: 4),
-            width: isActive ? 24 : 8,
-            height: 4,
-            color: isActive ? AppColors.gold : AppColors.border,
+            width: isActive ? 28 : 10,
+            height: 6,
+            decoration: BoxDecoration(
+              color: isActive ? AppColors.gold : AppColors.border,
+              borderRadius: BorderRadius.circular(999),
+            ),
           ),
         );
       }),

@@ -36,7 +36,7 @@ class _FilledCtaButtonState extends State<FilledCtaButton> {
           color: _hovered ? AppColors.themeColor : widget.backgroundColor,
           boxShadow: _hovered
               ? [BoxShadow(
-                  color: AppColors.deepThemeColor.withOpacity(0.3),
+                  color: AppColors.deepThemeColor.withValues(alpha: 0.3),
                   blurRadius: 24,
                   offset: const Offset(0, 8),
                 )]

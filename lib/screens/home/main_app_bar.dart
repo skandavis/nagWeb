@@ -26,7 +26,7 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: const BoxDecoration(
-        color: AppColors.warmWhite,
+        color: AppColors.royalPlum,
         border: Border(bottom: BorderSide(color: AppColors.border)),
       ),
       child: SafeArea(
@@ -36,7 +36,7 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
             children: [
               _DrawerButton(),
               const SizedBox(width: 8),
-              const AppLogo(iconSize: 36, fontSize: 13),
+              const AppLogo(iconSize: 36, fontSize: 13, textColor: AppColors.ivory),
               const Spacer(),
               TabToggle(
                 tabs: _tabs,
@@ -48,7 +48,7 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
                 currentUser,
                 style: GoogleFonts.cormorantGaramond(
                   fontSize: 14,
-                  color: AppColors.textSecondary,
+                  color: AppColors.ivory,
                   letterSpacing: 0.3,
                 ),
               ),
@@ -62,8 +62,6 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 }
 
-// ─── Drawer hamburger ─────────────────────────────────────────────────────────
-
 class _DrawerButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -75,15 +73,13 @@ class _DrawerButton extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: List.generate(3, (i) => Padding(
             padding: EdgeInsets.only(top: i == 0 ? 0 : 5),
-            child: Container(width: 22, height: 1.5, color: AppColors.textSecondary),
+            child: Container(width: 22, height: 1.5, color: AppColors.ivory),
           )),
         ),
       ),
     );
   }
 }
-
-// ─── Sign-out button ──────────────────────────────────────────────────────────
 
 class _SignOutButton extends StatefulWidget {
   final VoidCallback onTap;
@@ -94,31 +90,25 @@ class _SignOutButton extends StatefulWidget {
 }
 
 class _SignOutButtonState extends State<_SignOutButton> {
-  bool _hovered = false;
 
   @override
   Widget build(BuildContext context) {
-    return MouseRegion(
-      onEnter: (_) => setState(() => _hovered = true),
-      onExit: (_) => setState(() => _hovered = false),
-      cursor: SystemMouseCursors.click,
-      child: GestureDetector(
-        onTap: widget.onTap,
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 200),
-          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-          decoration: BoxDecoration(
-            border: Border.all(
-              color: _hovered ? AppColors.terracotta : AppColors.border,
-            ),
+    return GestureDetector(
+      onTap: widget.onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+        decoration: BoxDecoration(
+          border: Border.all(
+            color:AppColors.gold,
+            width: 3
           ),
-          child: Text(
-            'SIGN OUT',
-            style: GoogleFonts.cinzel(
-              fontSize: 8,
-              letterSpacing: 2,
-              color: _hovered ? AppColors.terracotta : AppColors.textMuted,
-            ),
+        ),
+        child: Text(
+          'SIGN OUT',
+          style: GoogleFonts.cinzel(
+            fontSize: 8,
+            letterSpacing: 2,
+            color:AppColors.ivory,
           ),
         ),
       ),

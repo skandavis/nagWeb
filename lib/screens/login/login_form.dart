@@ -54,7 +54,6 @@ class _LoginFormState extends State<LoginForm> {
             children: [
               const AppLogo(iconSize: 42, fontSize: 14),
               const SizedBox(height: 48),
-              const SectionEyebrow(text: 'Member Login'),
               const SizedBox(height: 16),
               Text(
                 'Sign in to your account',

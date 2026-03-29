@@ -31,8 +31,7 @@ class _LandingAppBarState extends State<LandingAppBar> {
   Widget build(BuildContext context) {
     final isWide = MediaQuery.of(context).size.width > 900;
 
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 200),
+    return Container(
       decoration: const BoxDecoration(
         color: AppColors.warmWhite,
         border: Border(bottom: BorderSide(color: AppColors.border)),

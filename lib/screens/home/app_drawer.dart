@@ -34,7 +34,6 @@ class AppDrawer extends StatelessWidget {
             ),
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 32),
-              child: SectionEyebrow(text: 'Navigation'),
             ),
             const SizedBox(height: 24),
             for (int i = 0; i < _tabs.length; i++)
@@ -52,8 +51,6 @@ class AppDrawer extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const GoldDivider(),
-                  const SizedBox(height: 16),
                   Text(
                     'Matrimonial Service — Est. 1776',
                     style: GoogleFonts.cormorantGaramond(

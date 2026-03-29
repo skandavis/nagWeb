@@ -15,8 +15,14 @@ class detailAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: const BoxDecoration(
-        color: AppColors.warmWhite,
-        border: Border(bottom: BorderSide(color: AppColors.border)),
+        gradient: LinearGradient(
+          colors: [
+            AppColors.royalPlum,
+            AppColors.imperialPurple,
+            AppColors.themeColor,
+          ],
+        ),
+        border: Border(bottom: BorderSide(color: AppColors.goldDeep)),
       ),
       child: SafeArea(
         child: Padding(
@@ -24,17 +30,21 @@ class detailAppBar extends StatelessWidget implements PreferredSizeWidget {
           child: Row(
             children: [
               IconButton(
-                icon: const Icon(Icons.arrow_back_ios_new, size: 16, color: AppColors.textSecondary),
+                icon: const Icon(
+                  Icons.arrow_back_ios_new,
+                  size: 16,
+                  color: AppColors.ivory,
+                ),
                 onPressed: () => Navigator.of(context).pop(),
               ),
-              const SizedBox(width: 4),
+              const SizedBox(width: 12),
               Text(
                 title,
                 style: GoogleFonts.cinzel(
-                  fontSize: 11,
-                  letterSpacing: 2.5,
-                  color: AppColors.textMuted,
-                  fontWeight: FontWeight.w500,
+                  fontSize: 12,
+                  letterSpacing: 3.2,
+                  color: AppColors.ivory,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
               const Spacer(),

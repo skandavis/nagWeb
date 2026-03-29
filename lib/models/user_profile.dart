@@ -7,7 +7,7 @@ class UserProfile {
   final String location;
   final String profession;
   final String bio;
-  final String salary;
+  final int salary;
   final Color avatarColor;
   final List<String> imageUrls;
   bool favorite;

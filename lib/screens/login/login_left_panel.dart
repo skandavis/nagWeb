@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../theme/app_colors.dart';
-import '../../widgets/widgets.dart';
 
 class LoginLeftPanel extends StatelessWidget {
   const LoginLeftPanel({super.key});
@@ -64,8 +63,6 @@ class LoginLeftPanel extends StatelessWidget {
               fontWeight: FontWeight.w300,
             ),
           ),
-          const SizedBox(height: 48),
-          const GoldDivider(),
           const SizedBox(height: 20),
           Text(
             'Over 600 successful matches. Est. 1776.',

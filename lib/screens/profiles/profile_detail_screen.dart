@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+
 import 'package:matrimonial/widgets/widgets.dart';
+
 import '../../models/models.dart';
 import '../../theme/app_colors.dart';
-import 'profile_image_gallery.dart';
 import 'profile_detail_info.dart';
+import 'profile_image_gallery.dart';
 
 class ProfileDetailScreen extends StatefulWidget {
   final UserProfile user;
@@ -15,7 +17,6 @@ class ProfileDetailScreen extends StatefulWidget {
 }
 
 class _ProfileDetailScreenState extends State<ProfileDetailScreen> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,15 +29,31 @@ class _ProfileDetailScreenState extends State<ProfileDetailScreen> {
           onToggleFavorite: () => setState(() => widget.user.favorite = !widget.user.favorite),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Center(
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 760),
-            child: Column(
-              children: [
-                ProfileImageGallery(imageUrls: widget.user.imageUrls),
-                ProfileDetailInfo(user: widget.user),
-              ],
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Color(0xFFF9F2E8),
+              AppColors.warmWhite,
+            ],
+          ),
+        ),
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.fromLTRB(20, 24, 20, 48),
+          child: Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 860),
+              child: purplePanel(
+                padding: const EdgeInsets.fromLTRB(20, 20, 20, 28),
+                child: Column(
+                  children: [
+                    ProfileImageGallery(imageUrls: widget.user.imageUrls),
+                    ProfileDetailInfo(user: widget.user),
+                  ],
+                ),
+              ),
             ),
           ),
         ),
@@ -61,48 +78,44 @@ class _ProfileActions extends StatelessWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        _ProfileBlockAction(user: user, onToggle: onToggleBlock),
-        _ProfileFavoriteAction(user: user, onToggle: onToggleFavorite),
+        _ProfileActionButton(
+          icon: user.blocked ? Icons.block : Icons.block_outlined,
+          color: user.blocked ? AppColors.goldLight : AppColors.ivory,
+          onPressed: onToggleBlock,
+        ),
+        const SizedBox(width: 8),
+        _ProfileActionButton(
+          icon: user.favorite ? Icons.favorite : Icons.favorite_border,
+          color: user.favorite ? AppColors.terracotta : AppColors.ivory,
+          onPressed: onToggleFavorite,
+        ),
       ],
     );
   }
 }
 
-class _ProfileBlockAction extends StatelessWidget {
-  final UserProfile user;
-  final VoidCallback onToggle;
+class _ProfileActionButton extends StatelessWidget {
+  const _ProfileActionButton({
+    required this.icon,
+    required this.color,
+    required this.onPressed,
+  });
 
-  const _ProfileBlockAction({required this.user, required this.onToggle});
+  final IconData icon;
+  final Color color;
+  final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {
-    return IconButton(
-      onPressed: onToggle,
-      tooltip: user.blocked ? 'Unblock profile' : 'Block profile',
-      icon: Icon(
-        user.blocked ? Icons.block : Icons.block_outlined,
-        size: 18,
-        color: user.blocked ? AppColors.deepThemeColor : AppColors.textMuted,
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white.withValues(alpha: 0.08),
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: AppColors.goldLight.withValues(alpha: 0.32)),
       ),
-    );
-  }
-}
-
-class _ProfileFavoriteAction extends StatelessWidget {
-  final UserProfile user;
-  final VoidCallback onToggle;
-
-  const _ProfileFavoriteAction({required this.user, required this.onToggle});
-
-  @override
-  Widget build(BuildContext context) {
-    return IconButton(
-      onPressed: onToggle,
-      tooltip: user.favorite ? 'Remove favorite' : 'Add favorite',
-      icon: Icon(
-        user.favorite ? Icons.favorite : Icons.favorite_border,
-        size: 18,
-        color: user.favorite ? AppColors.terracotta : AppColors.textMuted,
+      child: IconButton(
+        onPressed: onPressed,
+        icon: Icon(icon, size: 18, color: color),
       ),
     );
   }

@@ -21,13 +21,13 @@ class TabToggle extends StatelessWidget {
         for (int i = 0; i < tabs.length; i++)
           GestureDetector(
             onTap: () => onChanged(i),
-            child: AnimatedContainer(
-              duration: const Duration(milliseconds: 200),
+            child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               decoration: BoxDecoration(
-                color: selectedIndex == i ? AppColors.deepThemeColor : Colors.transparent,
+                color: selectedIndex != i ? AppColors.deepThemeColor : Colors.transparent,
                 border: Border.all(
-                  color: selectedIndex == i ? AppColors.deepThemeColor : AppColors.border,
+                  width: 3,
+                  color: selectedIndex != i ? AppColors.deepThemeColor : AppColors.gold,
                 ),
               ),
               child: Text(
@@ -35,7 +35,7 @@ class TabToggle extends StatelessWidget {
                 style: GoogleFonts.cinzel(
                   fontSize: 9,
                   letterSpacing: 2,
-                  color: selectedIndex == i ? AppColors.ivory : AppColors.textSecondary,
+                  color: selectedIndex != i ? AppColors.ivory : AppColors.ivory,
                 ),
               ),
             ),

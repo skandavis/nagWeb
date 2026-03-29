@@ -15,7 +15,7 @@ class AppFooter extends StatelessWidget {
       child: isWide
           ? Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [_brand(), _links(), _copyright()],
+              children: [_brand(), _links()],
             )
           : Column(
               children: [
@@ -23,7 +23,6 @@ class AppFooter extends StatelessWidget {
                 const SizedBox(height: 24),
                 _links(),
                 const SizedBox(height: 24),
-                _copyright(),
               ],
             ),
     );
@@ -70,16 +69,6 @@ class AppFooter extends StatelessWidget {
                 ),
               ))
           .toList(),
-    );
-  }
-
-  Widget _copyright() {
-    return Text(
-      '© 2024 Matrimonial. All rights reserved.',
-      style: GoogleFonts.cormorantGaramond(
-        fontSize: 13,
-        color: AppColors.ivory.withOpacity(0.3),
-      ),
     );
   }
 }

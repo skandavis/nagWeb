@@ -5,8 +5,14 @@ import 'package:matrimonial/theme/app_colors.dart';
 class messageInput extends StatefulWidget {
   final TextEditingController controller;
   final int maxLines;
-  String hintText;
-  messageInput({super.key, required this.controller, required this.maxLines, required this.hintText});
+  final String hintText;
+
+  const messageInput({
+    super.key,
+    required this.controller,
+    required this.maxLines,
+    required this.hintText,
+  });
 
   @override
   State<messageInput> createState() => _messageInputState();
@@ -19,27 +25,27 @@ class _messageInputState extends State<messageInput> {
       controller: widget.controller,
       maxLines: widget.maxLines,
       style: GoogleFonts.cormorantGaramond(
-        fontSize: 16,
+        fontSize: 18,
         color: AppColors.textPrimary,
-        height: 2,
+        height: 1.7,
       ),
       decoration: InputDecoration(
         hintText: widget.hintText,
         hintStyle: GoogleFonts.cormorantGaramond(
-          fontSize: 16,
+          fontSize: 18,
           color: AppColors.textMuted,
           fontStyle: FontStyle.italic,
         ),
         filled: true,
-        fillColor: AppColors.ivory,
-        contentPadding: const EdgeInsets.all(16),
+        fillColor: AppColors.marble,
+        contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
         enabledBorder: const OutlineInputBorder(
-          borderRadius: BorderRadius.zero,
-          borderSide: BorderSide(color: AppColors.border),
+          borderRadius: BorderRadius.all(Radius.circular(18)),
+          borderSide: BorderSide(color: AppColors.borderStrong),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.zero,
-          borderSide: BorderSide(color: AppColors.gold.withOpacity(0.6)),
+          borderRadius: const BorderRadius.all(Radius.circular(18)),
+          borderSide: BorderSide(color: AppColors.gold.withValues(alpha: 0.6)),
         ),
       ),
     );

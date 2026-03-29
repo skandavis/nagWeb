@@ -22,7 +22,6 @@ class FeaturesSection extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 100, horizontal: 80),
       child: Column(
         children: [
-          const SectionEyebrow(text: 'What We Have',),
           const SizedBox(height: 20),
           isWide
               ? IntrinsicHeight(

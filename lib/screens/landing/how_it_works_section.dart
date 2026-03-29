@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../theme/app_colors.dart';
-import '../../widgets/widgets.dart';
 
 class HowItWorksSection extends StatelessWidget {
   const HowItWorksSection({super.key});
@@ -20,7 +19,6 @@ class HowItWorksSection extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 100, horizontal: 80),
       child: Column(
         children: [
-          const SectionEyebrow(text: 'How It Works'),
           const SizedBox(height: 20),
           Text(
             'Four Simple Steps',

@@ -8,7 +8,7 @@ final List<UserProfile> totalUsers = [
     age: 26,
     location: 'Rome, Italy',
     profession: 'Consul',
-    salary: '45000',
+    salary: 45000,
     bio: 'I am a Roman general and statesman, known for my military prowess and political acumen. I am seeking a partner who can match my ambition and share in the glory of Rome. I enjoy gladiatorial games, philosophical debates, and plotting the downfall of my rivals.',
     avatarColor: const Color(0xFF5B2D47),
     imageUrls: [
@@ -23,7 +23,7 @@ final List<UserProfile> totalUsers = [
     age: 34,
     location: 'Somewhere in Mongolia',
     profession: 'Warlord',
-    salary: '88000',
+    salary: 88000,
     bio: 'I am the Great Khan of the Mongol Empire, a vast realm stretching from the Pacific to the Caspian. I am looking for a partner who can keep up with my conquests and share in the spoils. I enjoy horseback riding, archery, and long conversations about the merits of different siege engines.',
     avatarColor: const Color(0xFF2E4A6B),
     imageUrls: [
@@ -38,7 +38,7 @@ final List<UserProfile> totalUsers = [
     age: 28,
     location: 'Paris, France',
     profession: 'Dictator',
-    salary: '62000',
+    salary: 62000,
     bio: 'I am the Emperor of the French and a master of strategy. I have conquered much of Europe and am now seeking a partner to rule by my side. I enjoy long walks on the battlefield and romantic dinners in the Tuileries.',
     avatarColor: const Color(0xFF6B4226),
     imageUrls: [
@@ -53,7 +53,7 @@ final List<UserProfile> totalUsers = [
     age: 31,
     location: 'Washington, D.C.',
     profession: 'American President',
-    salary: '120000',
+    salary: 120000,
     bio: 'I am the 26th President of the United States, a Rough Rider, and a champion of the outdoors. I am looking for a partner who shares my love of adventure and my commitment to public service. I enjoy hiking in the mountains, exploring new lands, and giving impassioned speeches about the virtues of American exceptionalism.',
     avatarColor: const Color(0xFF2E5C3E),
     imageUrls: [
@@ -68,7 +68,7 @@ final List<UserProfile> totalUsers = [
     age: 29,
     location: 'Florence, Italy',
     profession: 'Inventor',
-    salary: '54000',
+    salary: 54000,
     bio: 'Painter, engineer, anatomist, dreamer. I am endlessly curious about how the world works and would prefer a partner who sees dinner conversation as a chance to explore the nature of flight, beauty, and the geometry of a well-cut sleeve. I enjoy sketching, designing improbable machines, and disappearing into thought for long stretches before returning with something brilliant.',
     avatarColor: const Color(0xFF556B5D),
     imageUrls: [
@@ -83,7 +83,7 @@ final List<UserProfile> totalUsers = [
     age: 30,
     location: 'London, England',
     profession: 'Playwright',
-    salary: '47000',
+    salary: 47000,
     bio: 'A writer of tragedies, comedies, histories, and the occasional line so devastatingly romantic it should probably come with a warning. I seek a partner who appreciates wit, theatre, and the dramatic pause. I enjoy lively tavern conversation, people-watching, poetic exaggeration, and turning the smallest glance into a five-act emotional event.',
     avatarColor: const Color(0xFF6A3F2B),
     imageUrls: [
@@ -98,7 +98,7 @@ final List<UserProfile> totalUsers = [
     age: 33,
     location: 'New York, U.S.A.',
     profession: 'Inventor',
-    salary: '68000',
+    salary: 68000,
     bio: 'Inventor of electrifying ideas, elegant theories, and schedules that are perhaps too committed to the work. I am drawn to intelligence, originality, and conversation that crackles with possibility. I enjoy experimentation, midnight inspiration, immaculate tailoring, and imagining futures that others insist are impossible until I build them.',
     avatarColor: const Color(0xFF3B4F73),
     imageUrls: [
@@ -113,7 +113,7 @@ final List<UserProfile> totalUsers = [
     age: 27,
     location: 'New York, U.S.A.',
     profession: 'Statesman',
-    salary: '59000',
+    salary: 59000,
     bio: 'Fast with a pen, faster with an argument, and perhaps occasionally too enthusiastic about both. I admire ambition, intellect, and someone who can match my energy without encouraging every reckless impulse. I enjoy writing late into the night, building institutions, and turning impossible odds into a personal challenge.',
     avatarColor: const Color(0xFF4A5568),
     imageUrls: [
@@ -128,7 +128,7 @@ final List<UserProfile> totalUsers = [
     age: 30,
     location: 'Higo, Japan',
     profession: 'Swordsman',
-    salary: '65000',
+    salary: 65000,
     bio: 'Disciplined, observant, and calm under pressure, I prefer depth over noise and mastery over applause. I am seeking someone who respects focus, resilience, and the quiet confidence that comes from knowing oneself. I enjoy training at dawn, painting, strategy, and the kind of companionship that sharpens rather than distracts.',
     avatarColor: const Color(0xFF3E4A3F),
     imageUrls: [

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:matrimonial/theme/app_colors.dart';
 
 class AvatarCircle extends StatelessWidget {
@@ -21,34 +22,49 @@ class AvatarCircle extends StatelessWidget {
       width: size,
       height: size,
       decoration: BoxDecoration(
-        border: Border.all(color: AppColors.goldLight, width: 3),
+        gradient: const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            AppColors.goldLight,
+            AppColors.gold,
+            AppColors.goldDeep,
+          ],
+        ),
+        borderRadius: BorderRadius.circular(size * 0.16),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.royalPlum.withValues(alpha: 0.18),
+            blurRadius: 18,
+            offset: const Offset(0, 8),
+          ),
+        ],
       ),
       child: Container(
-        padding: const EdgeInsets.all(4),
-        child: Image.network(
-          'https://t4.ftcdn.net/jpg/03/83/25/83/360_F_383258331_D8imaEMl8Q3lf7EKU2Pi78Cn0R7KkW9o.jpg',
-          fit: BoxFit.cover,
+        margin: const EdgeInsets.all(4),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(size * 0.13),
+          border: Border.all(color: AppColors.ivory.withValues(alpha: 0.7)),
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              color.withValues(alpha: 0.95),
+              AppColors.themeColor,
+            ],
+          ),
+        ),
+        alignment: Alignment.center,
+        child: Text(
+          initials,
+          style: GoogleFonts.cinzel(
+            fontSize: fontSize,
+            color: AppColors.ivory,
+            letterSpacing: 1.5,
+            fontWeight: FontWeight.w600,
+          ),
         ),
       ),
     );
-    // return Container(
-    //   width: size,
-    //   height: size,
-    //   decoration: BoxDecoration(
-    //     shape: BoxShape.circle,
-    //     color: color,
-    //     border: Border.all(color: Colors.white.withOpacity(0.15), width: 1.5),
-    //   ),
-    //   alignment: Alignment.center,
-    //   child: Text(
-    //     initials,
-    //     style: GoogleFonts.cinzel(
-    //       fontSize: fontSize,
-    //       color: Colors.white,
-    //       letterSpacing: 1,
-    //       fontWeight: FontWeight.w500,
-    //     ),
-    //   ),
-    // );
   }
 }
