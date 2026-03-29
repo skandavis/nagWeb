@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:matrimonial/theme/app_colors.dart';
 
 class AvatarCircle extends StatelessWidget {
   final String initials;
@@ -21,7 +20,6 @@ class AvatarCircle extends StatelessWidget {
       width: size,
       height: size,
       decoration: BoxDecoration(
-        border: Border.all(color: AppColors.goldLight, width: 3),
       ),
       child: Container(
         padding: const EdgeInsets.all(4),

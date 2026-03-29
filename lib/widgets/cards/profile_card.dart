@@ -27,21 +27,17 @@ class _ProfileCardState extends State<ProfileCard> {
           decoration: BoxDecoration(
             border: Border.all(color: AppColors.border, width: 1.5),
           ),
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.only(top: 20, left: 0, right: 20, bottom: 20),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 350),
+                constraints: const BoxConstraints(maxWidth: 300),
                 child: _CardHeader(user: widget.user)
               ),
               const VerticalGoldDivider(),
               Expanded(child: _CardBio(bio: widget.user.bio)),
               const VerticalGoldDivider(),
-              ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 200),
-                child: _CardEndFooter(user: widget.user),
-              ),
             ],
           ),
         ),
@@ -59,17 +55,28 @@ class _CardHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        AvatarCircle(
-          initials: user.initials,
-          color: user.avatarColor,
-          size: 150,
-          fontSize: 16,
+        Container(
+          decoration: BoxDecoration(
+            border: Border.all(color: AppColors.goldLight, width: 3),
+            color: AppColors.textMuted.withOpacity(0.1),
+          ),
+          child: Column(
+            children: [
+              AvatarCircle(
+                initials: user.initials,
+                color: user.avatarColor,
+                size: 150,
+                fontSize: 16,
+              ),
+              _CardEndFooter(user: user)
+            ],
+          ),
         ),
         const SizedBox(width: 20),
-        SizedBox(
-          height: 150,
+        Container(
+          color: Colors.red,
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -77,27 +84,52 @@ class _CardHeader extends StatelessWidget {
                   Text(
                     user.name,
                     style: GoogleFonts.playfairDisplay(
-                      fontSize: 16,
+                      fontSize: 12,
                       color: AppColors.textPrimary,
                     ),
                   ),
                   Text(
                     '${user.age} · ${user.profession}',
                     style: GoogleFonts.cormorantGaramond(
-                      fontSize: 14,
+                      fontSize: 12,
                       color: AppColors.textMuted,
                       fontWeight: FontWeight.bold
                     ),
                   ),
+                  SizedBox(
+                    width: 100,
+                    child: Text(
+                      user.location,
+                      overflow: TextOverflow.ellipsis,
+                      style: GoogleFonts.cormorantGaramond(
+                        fontSize: 12,
+                        color: AppColors.textMuted,
+                        fontWeight: FontWeight.bold
+                      ),
+                    ),
+                  ),
                 ],
               ),
-              Text(
-                user.location,
-                style: GoogleFonts.cormorantGaramond(
-                  fontSize: 14,
-                  color: AppColors.textMuted,
-                  fontWeight: FontWeight.bold
-                ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'ANNUAL INCOME',
+                    style: GoogleFonts.cinzel(
+                      fontSize: 8,
+                      color: AppColors.textMuted,
+                      fontWeight: FontWeight.w500
+                    ),
+                  ),
+                  Text(
+                    "${user.salary} USD",
+                    style: GoogleFonts.playfairDisplay(
+                      fontSize: 10,
+                      color: AppColors.deepThemeColor,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
@@ -123,7 +155,7 @@ class _CardBio extends StatelessWidget {
           color: AppColors.textSecondary,
           fontWeight: FontWeight.w300,
         ),
-        maxLines: 2,
+        maxLines: 4,
         overflow: TextOverflow.ellipsis,
       ),
     );
@@ -142,48 +174,30 @@ class _CardEndFooterState extends State<_CardEndFooter> {
   @override
 
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        Column(
-          children: [
-            Text(
-              'ANNUAL INCOME',
-              style: GoogleFonts.cinzel(
-                fontSize: 10,
-                color: AppColors.textMuted,
-                fontWeight: FontWeight.w500
-              ),
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          GestureDetector(
+            onTap: () => setState(() => widget.user.blocked = !widget.user.blocked),
+            child: Icon(
+              widget.user.blocked ? Icons.block : Icons.block_outlined,
+              size: 24,
+              color: widget.user.blocked ? AppColors.deepThemeColor : AppColors.textMuted,
             ),
-            Text(
-              "${widget.user.salary} USD",
-              style: GoogleFonts.playfairDisplay(
-                fontSize: 14,
-                color: AppColors.deepThemeColor,
-                fontWeight: FontWeight.w500,
-              ),
+          ),
+          const SizedBox(width: 20),
+          GestureDetector(
+            onTap: () => setState(() => widget.user.favorite = !widget.user.favorite),
+            child: Icon(
+              widget.user.favorite ? Icons.favorite : Icons.favorite_border,
+              size: 24,
+              color: widget.user.favorite ? AppColors.terracotta : AppColors.textMuted,
             ),
-          ],
-        ),
-        const SizedBox(width: 20),
-        GestureDetector(
-          onTap: () => setState(() => widget.user.blocked = !widget.user.blocked),
-          child: Icon(
-            widget.user.blocked ? Icons.block : Icons.block_outlined,
-            size: 18,
-            color: widget.user.blocked ? AppColors.deepThemeColor : AppColors.textMuted,
           ),
-        ),
-        const SizedBox(width: 20),
-        GestureDetector(
-          onTap: () => setState(() => widget.user.favorite = !widget.user.favorite),
-          child: Icon(
-            widget.user.favorite ? Icons.favorite : Icons.favorite_border,
-            size: 18,
-            color: widget.user.favorite ? AppColors.terracotta : AppColors.textMuted,
-          ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
@@ -195,7 +209,7 @@ class VerticalGoldDivider extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 1,
-      height: 48,
+      height: 100,
       color: AppColors.gold,
     );
   }

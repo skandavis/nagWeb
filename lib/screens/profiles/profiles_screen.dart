@@ -108,60 +108,56 @@ class _ProfilesContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(40, 0, 40, 0),
-      child: LayoutBuilder(
-        builder: (context, constraints) {
-          final isWide = constraints.maxWidth >= 980;
-          final filtersBar = ProfilesFilterBar(
-            filters: filters,
-            onProfessionToggled: onProfessionToggled,
-            onLocationToggled: onLocationToggled,
-            onAgeChanged: onAgeChanged,
-            onSalaryChanged: onSalaryChanged,
-            onClearFilters: onClearFilters,
-          );
-
-          final content = Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _ProfilesSearchBar(
-                controller: searchController,
-                onChanged: onSearchChanged,
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final filtersBar = ProfilesFilterBar(
+          filters: filters,
+          onProfessionToggled: onProfessionToggled,
+          onLocationToggled: onLocationToggled,
+          onAgeChanged: onAgeChanged,
+          onSalaryChanged: onSalaryChanged,
+          onClearFilters: onClearFilters,
+        );
+    
+        final content = Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _ProfilesSearchBar(
+              controller: searchController,
+              onChanged: onSearchChanged,
+            ),
+            const SizedBox(height: 18),
+            Text(
+              '${users.length} of ${totalUsers.length} profiles',
+              style: GoogleFonts.cormorantGaramond(
+                fontSize: 18,
+                color: AppColors.textSecondary,
               ),
-              const SizedBox(height: 18),
-              Text(
-                '${users.length} of ${totalUsers.length} profiles',
-                style: GoogleFonts.cormorantGaramond(
-                  fontSize: 18,
-                  color: AppColors.textSecondary,
-                ),
-              ),
-              const SizedBox(height: 18),
-              _ProfilesGrid(users: users),
-            ],
-          );
-
-          if (!isWide) {
-            return Column(
-              children: [
-                filtersBar,
-                const SizedBox(height: 24),
-                content,
-              ],
-            );
-          }
-
-          return Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(width: 300, child: filtersBar),
-              const SizedBox(width: 32),
-              Expanded(child: content),
-            ],
-          );
-        },
-      ),
+            ),
+            const SizedBox(height: 18),
+            _ProfilesGrid(users: users),
+          ],
+        );
+    
+        // if (!isWide) {
+        //   return Column(
+        //     children: [
+        //       filtersBar,
+        //       const SizedBox(height: 24),
+        //       content,
+        //     ],
+        //   );
+        // }
+    
+        return Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(width: 250, child: filtersBar),
+            const SizedBox(width: 4),
+            Expanded(child: content),
+          ],
+        );
+      },
     );
   }
 }

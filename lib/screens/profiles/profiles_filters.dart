@@ -180,7 +180,7 @@ class _ProfilesFilterBarState extends State<ProfilesFilterBar> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(24),
+      padding: const EdgeInsets.only(top: 24, left: 12, right: 12, bottom: 24),
       decoration: BoxDecoration(
         color: AppColors.warmWhite,
         border: Border.all(color: AppColors.border, width: 1.5),
@@ -194,20 +194,17 @@ class _ProfilesFilterBarState extends State<ProfilesFilterBar> {
                 child: Text(
                   'Filter Profiles',
                   style: GoogleFonts.playfairDisplay(
-                    fontSize: 24,
+                    fontSize: 20,
                     color: AppColors.textPrimary,
                   ),
                 ),
               ),
-              TextButton(
-                onPressed: widget.onClearFilters,
-                child: Text(
-                  'Clear',
-                  style: GoogleFonts.cormorantGaramond(
-                    fontSize: 14,
-                    color: AppColors.themeColor,
-                    fontWeight: FontWeight.w700,
-                  ),
+              GestureDetector(
+                onTap: widget.onClearFilters,
+                child: const Icon(
+                  Icons.delete,
+                  size: 20,
+                  color: AppColors.textMuted,
                 ),
               ),
             ],
@@ -290,6 +287,7 @@ class _ProfilesFilterBarState extends State<ProfilesFilterBar> {
           ),
           SliderTheme(
             data: SliderTheme.of(context).copyWith(
+              
               activeTrackColor: AppColors.themeColor,
               inactiveTrackColor: AppColors.cream,
               thumbColor: AppColors.gold,
@@ -419,7 +417,7 @@ class _CheckboxFilterOption extends StatelessWidget {
               child: Text(
                 label,
                 style: GoogleFonts.cormorantGaramond(
-                  fontSize: 16,
+                  fontSize: 14,
                   color: selected
                       ? AppColors.textPrimary
                       : AppColors.textSecondary,
